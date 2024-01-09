@@ -17,6 +17,6 @@ export class ClientesComponent {
   clientes: Cliente[] = [];
 
   ngOnInit(): void {
-    this.clientes = this._clientesService.getClientes();
+    this._clientesService.getClientes().subscribe( clientes => this.clientes = clientes );
   }
 }
