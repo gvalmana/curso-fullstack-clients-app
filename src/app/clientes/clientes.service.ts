@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Cliente } from './cliente';
 import { Observable, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
 export class ClientesService {
 
-  private urlEndpint: string = 'http://localhost:8080/api/clientes';
+  private urlEndpoint: string = 'http://localhost:8080/api/clients';
 
   constructor(private http: HttpClient) {}
-
+  private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
   getClientes(): Observable<Cliente[]> {
-    console.log(this.urlEndpint);
-    return this.http.get<Cliente[]>(this.urlEndpint);
+    return this.http.get<Cliente[]>(this.urlEndpoint);
+  }
+
+  create(cliente: Cliente): Observable<Cliente> {
+    return this.http.post<Cliente>(this.urlEndpoint, cliente, {headers: this.httpHeaders});
   }
 }

@@ -3,11 +3,12 @@ import { Cliente } from './cliente';
 import { CommonModule } from '@angular/common';
 import { ClientesService } from './clientes.service';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-clientes',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule, HttpClientModule, RouterLink],
   templateUrl: './clientes.component.html'
 })
 
