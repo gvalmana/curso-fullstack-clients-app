@@ -16,4 +16,9 @@ export const routes: Routes = [
     title: 'Crear cliente',
     component: FormComponent
   },
+  {
+    path: 'clientes/form/:id',
+    title: 'Crear cliente',
+    component: FormComponent
+  },
 ];
