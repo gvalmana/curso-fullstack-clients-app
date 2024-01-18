@@ -16,6 +16,8 @@ export class FormComponent {
 
   public cliente: Cliente = new Cliente();
   public titulo: string = "Crear cliente";
+  public errors: string[] = [];
+
   constructor(private ClientesService: ClientesService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -36,21 +38,28 @@ export class FormComponent {
   public create(): void {
     this.ClientesService.create(this.cliente).subscribe(
       response => {
-        this.cliente = response
         this.router.navigate(['/clientes'])
-        swal.fire("Cliente creado", `El cliente ${this.cliente.name} ha sido creado con exito`, 'success')
+        swal.fire("Cliente creado", `El cliente ${response.name} registrado con éxito`, 'success')
+      },
+      err => {
+        this.errors = err.error.errors as string[]
+        console.error(`Codigo desde el backend ${err.status}`)
+        console.error(err.error.errors)
       }
     )
   }
 
   public update(): void {
-    console.log("Comenzando a actualizar")
     this.ClientesService.updateCliente(this.cliente).subscribe(
       response => {
-        console.log(response)
         this.cliente = response
         this.router.navigate(['/clientes'])
-        swal.fire("Cliente actualizado", `El cliente ${this.cliente.name} ha sido actualizado con éxito`, 'success')
+        swal.fire("Cliente creado", `${response.message}: ${response.data.name}`, 'success')
+      },
+      err => {
+        this.errors = err.error.errors as string[]
+        console.error(`Codigo desde el backend ${err.status}`)
+        console.error(err.error.errors)
       }
     )
   }
