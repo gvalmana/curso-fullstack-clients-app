@@ -1,20 +1,37 @@
 import swal  from 'sweetalert2';
 import { Injectable } from '@angular/core';
 import { Cliente } from './cliente';
-import { Observable, catchError, map, of, throwError } from 'rxjs';
+import { Observable, catchError, map, of, throwError, tap } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { formatDate } from '@angular/common';
 @Injectable({
   providedIn: 'root',
 })
 export class ClientesService {
-  private urlEndpoint: string = 'http://localhost:8080/api/clients';
+  private urlEndpoint: string = 'http://localhost:8080/api/clients/search?page=';
 
   constructor(private http: HttpClient, private router: Router) {}
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
-  getClientes(): Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(this.urlEndpoint).pipe(
-      map((response: any) => response.data as Cliente[]),
+  getClientes(page: number): Observable<any> {
+    return this.http.get(this.urlEndpoint + page).pipe(
+      tap((response: any) => {
+        (response.data as Cliente[]).forEach(cliente => {
+          console.log(cliente.name);
+        })
+      }),
+      map((response: any) => {
+        (response.data as Cliente[]).map((cliente) => {
+          cliente.name = cliente.name.toUpperCase();
+          return cliente;
+        });
+        return response;
+      }),
+      tap((response: any) => {
+        (response.data as Cliente[]).forEach(cliente => {
+          console.log(cliente.name);
+        })
+      }),
     );
   }
 

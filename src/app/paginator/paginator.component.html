@@ -1,0 +1,5 @@
+<ul *ngIf="pages.length > 0" class="pagination">
+  <li *ngFor="let page of pages">
+    <a routerLink="['/clientes/page', page-1]">{{ page }}</a>
+  </li>
+</ul>

@@ -12,6 +12,11 @@ export const routes: Routes = [
     component: ClientesComponent,
   },
   {
+    path: 'clientes/page/:page',
+    title: 'Listado de clientes',
+    component: ClientesComponent,
+  },
+  {
     path: 'clientes/form',
     title: 'Crear cliente',
     component: FormComponent

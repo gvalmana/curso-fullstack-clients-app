@@ -15,7 +15,8 @@
           <th>Nombre</th>
           <th>Apellidos</th>
           <th>Email</th>
-          <th>Fecha</th>
+          <th>Creado</th>
+          <th>Actualizado</th>
           <th colspan="2">Actions</th>
         </tr>
       </thead>
@@ -24,9 +25,10 @@
           <tr *ngFor="let cliente of clientes">
             <td>{{ cliente.id }}</td>
             <td>{{ cliente.name }}</td>
-            <td>{{ cliente.lastname }}</td>
+            <td>{{ cliente.lastname | uppercase }}</td>
             <td>{{ cliente.email }}</td>
-            <td>{{ cliente.createAt | date }}</td>
+            <td>{{ cliente.createAt | date: 'EEEE dd, MMM yyyy hh:mm:ss'}}</td>
+            <td>{{ cliente.updateAt | date: 'EEEE dd, MMM yyyy hh:mm:ss' }}</td>
             <td><button class="btn btn-primary btn-sm" name="editar" type="button" routerLink="form/{{ cliente.id }}">Editar</button></td>
             <td><button class="btn btn-danger btn-sm" name="Eliminar" (click)="delete(cliente)" type="button">Eliminar</button></td>
           </tr>
@@ -40,5 +42,6 @@
         </tbody>
       }
     </table>
+    <paginator-nav  *ngIf="paginator" [paginator]="paginator"></paginator-nav>
   </div>
 </div>

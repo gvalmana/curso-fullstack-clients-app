@@ -3,5 +3,6 @@ export class Cliente {
   name: string = '';
   lastname: string = '';
   createAt: string = '';
+  updateAt: string = '';
   email: string = '';
 }
