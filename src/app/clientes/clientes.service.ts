@@ -9,26 +9,30 @@ import { formatDate } from '@angular/common';
   providedIn: 'root',
 })
 export class ClientesService {
-  private urlEndpoint: string = 'http://localhost:8080/api/clients/search?page=';
-
+  private urlEndpoint: string = 'http://localhost:8080/api/clients';
   constructor(private http: HttpClient, private router: Router) {}
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
   getClientes(page: number): Observable<any> {
-    return this.http.get(this.urlEndpoint + page).pipe(
+    console.log("Cliente Service: getClientes");
+    console.log(`${this.urlEndpoint}/search?page=${page}`);
+    return this.http.get(`${this.urlEndpoint}/search?page=${page}`).pipe(
       tap((response: any) => {
-        (response.data as Cliente[]).forEach(cliente => {
+        console.log("Cliente Service: tap 1");
+        (response.content as Cliente[]).forEach(cliente => {
           console.log(cliente.name);
         })
       }),
       map((response: any) => {
-        (response.data as Cliente[]).map((cliente) => {
+        console.log("Cliente Service: map");
+        (response.content as Cliente[]).map((cliente) => {
           cliente.name = cliente.name.toUpperCase();
           return cliente;
         });
         return response;
       }),
       tap((response: any) => {
-        (response.data as Cliente[]).forEach(cliente => {
+        console.log("Cliente Service: tap 2");
+        (response.content as Cliente[]).forEach(cliente => {
           console.log(cliente.name);
         })
       }),

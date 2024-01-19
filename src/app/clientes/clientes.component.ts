@@ -27,15 +27,16 @@ export class ClientesComponent {
     this.activatedRoute.paramMap.subscribe((params) => {
       let page: number | null | undefined = 0;
       page = +params.get('page')!;
-      console.log(page);
       this._clientesService
         .getClientes(page)
         .pipe(
           tap((response: any) => {
-            (response.data as Cliente[]).forEach((cliente) => console.log(cliente.name));
+            (response.content as Cliente[]).forEach(cliente => {
+              console.log(cliente.name)
+            });
           })
         ).subscribe((response) => {
-          this.clientes = response.data as Cliente[]
+          this.clientes = response.content as Cliente[]
           this.paginator = response
         });
     });
