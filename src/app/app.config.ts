@@ -5,6 +5,7 @@ import { provideHttpClient } from '@angular/common/http';
 
 import { routes } from './app.routes';
 import { registerLocaleData } from '@angular/common';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 registerLocaleData(localeEs, 'es');
 
@@ -13,5 +14,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     { provide: LOCALE_ID, useValue: 'es' },
-  ],
+    provideAnimations()
+],
 };
