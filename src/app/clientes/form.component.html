@@ -7,7 +7,7 @@
   <div class="card-header">Formulario</div>
   <div class="card-body">
     <form #clienteForm="ngForm">
-      <div class="form-group row">
+      <div class="form-group row mb-3">
         <label for="" class="col-sm-2 col-form-label">Nombre: </label>
         <div class="col-sm-6">
           <input type="text" class="form-control" type="text" [(ngModel)]="cliente.name" name="name" #name="ngModel"> <!-- required  minlength="4" -->
@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <div class="form-group row">
+      <div class="form-group row mb-3">
         <label for="" class="col-sm-2 col-form-label">Apellido: </label>
         <div class="col-sm-6">
           <input type="text" class="form-control" type="text" [(ngModel)]="cliente.lastname" name="lastname" #lastname="ngModel"> <!-- required  minlength="4" -->
@@ -34,7 +34,7 @@
         </div>
       </div>
 
-      <div class="form-group row">
+      <div class="form-group row mb-3">
         <label for="" class="col-sm-2 col-form-label">Email: </label>
         <div class="col-sm-6">
           <input type="text" class="form-control" type="text" [(ngModel)]="cliente.email" name="email" #email="ngModel"> <!-- required  email -->
@@ -52,9 +52,13 @@
       <div class="form-group row">
         <label for="" class="col-sm-2 col-form-label">Fecha de registro: </label>
         <div class="col-sm-6">
-          <input type="date" class="form-control" type="text" [(ngModel)]="cliente.createAt" name="createAt" #createAt="ngModel"> <!-- required  minlength="4" -->
+          <input matInput [matDatepicker]="createAtDatePiker" class="form-control" type="text" [(ngModel)]="cliente.createAt" name="createAt" #createAt="ngModel" style="display: inline;width: 300px;">
+          <mat-datepicker-toggle matIconSuffix [for]="createAtDatePiker"></mat-datepicker-toggle>
+          <mat-datepicker #createAtDatePiker></mat-datepicker>
         </div>
       </div>
+
+
 
       <div class="form-group row">
         <div class="col-sm-6">

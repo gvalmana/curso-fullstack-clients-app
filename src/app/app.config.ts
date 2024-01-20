@@ -5,7 +5,9 @@ import { provideHttpClient } from '@angular/common/http';
 
 import { routes } from './app.routes';
 import { registerLocaleData } from '@angular/common';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { MatNativeDateModule } from '@angular/material/core';
 
 registerLocaleData(localeEs, 'es');
 
