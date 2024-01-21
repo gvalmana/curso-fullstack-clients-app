@@ -2,7 +2,7 @@ import { FormComponent } from './clientes/form.component';
 import { Component } from '@angular/core';
 import { Routes } from '@angular/router';
 import { ClientesComponent } from './clientes/clientes.component';
-import { DirectivaComponent } from './directiva/directiva.component';
+import { DetallesComponent } from './clientes/detalles/detalles.component';
 
 export const routes: Routes = [
 
@@ -20,6 +20,11 @@ export const routes: Routes = [
     path: 'clientes/form',
     title: 'Crear cliente',
     component: FormComponent
+  },
+  {
+    path: 'clientes/details/:id',
+    title: 'Crear cliente',
+    component: DetallesComponent
   },
   {
     path: 'clientes/form/:id',

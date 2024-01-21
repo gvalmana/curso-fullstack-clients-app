@@ -91,4 +91,19 @@ export class ClientesService {
       })
     );
   }
+
+  uploadPicture(file: File, id: number): Observable<Cliente> {
+    let formData = new FormData();
+    formData.append('file', file);
+    formData.append('id', id.toString());
+    let ulr: string = `${this.urlEndpoint}/upload`;
+    return this.http.post(ulr, formData).pipe(
+      map((response: any) => response.cliente as Cliente),
+      catchError(error => {
+        this.router.navigate(['/clientes']);
+        swal.fire(error.error.message, error.error.error, 'error')
+        return throwError(error);
+      })
+    );
+  }
 }
