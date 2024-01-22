@@ -1,13 +1,29 @@
 <div class="card bg-dark text-white">
   <div class="card-header">{{title}}</div>
   <div class="card-body">
-    <div class="input-group mb-3">
-      <input (change)="selectPicture($event)" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-      <label class="input-group-text" for="inputGroupFile04">Upload</label>
-    </div>
-    <div class="form-group row">
-      <div class="col-sm-6">
-        <button (click)="uploadPicture()" type="button" type="button" class="btn btn-primary">Save</button>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <ul *ngIf="client" class="list-group mb-3">
+            <li class="list-group-item">Name: {{client.name}}</li>
+            <li class="list-group-item">Lastname: {{client.lastname}}</li>
+            <li class="list-group-item">Email: {{client.email}}</li>
+            <li class="list-group-item">Create At: {{client.createAt | date:"fullDate"}}</li>
+            <li class="list-group-item">Update At: {{client.updateAt | date:"fullDate"}}</li>
+          </ul>
+          <div class="input-group mb-3">
+            <input (change)="selectPicture($event)" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+            <label class="input-group-text" for="inputGroupFile04">Upload</label>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <button (click)="uploadPicture()" type="button" type="button" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm">
+          <img *ngIf="client?.photo" src="http://localhost:8080/api/clients/uploads/img/{{client.photo}}" alt="" class="img-thumbnail img-fluid rounded" width="300">
+        </div>
       </div>
     </div>
   </div>

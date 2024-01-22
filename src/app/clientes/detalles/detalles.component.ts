@@ -3,11 +3,12 @@ import { ClientesService } from '../clientes.service';
 import { Cliente } from './../cliente';
 import { Component } from '@angular/core';
 import swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'detalles-cliente',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './detalles.component.html',
   styleUrl: './detalles.component.css'
 })
@@ -43,7 +44,7 @@ export class DetallesComponent {
       response => {
         this.client = response;
         this.router.navigate(['/clientes']);
-        swal.fire("Picture uploaded", `${this.client.picture} picture uploaded`, 'success');
+        swal.fire("Picture uploaded", `${this.client.photo} picture uploaded`, 'success');
       }
     )
   }

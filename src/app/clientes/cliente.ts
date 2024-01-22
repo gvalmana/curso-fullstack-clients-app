@@ -5,5 +5,5 @@ export class Cliente {
   createAt: string = '';
   updateAt: string = '';
   email: string = '';
-  picture: string = '';
+  photo: string = '';
 }
