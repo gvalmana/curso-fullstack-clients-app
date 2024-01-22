@@ -1,7 +1,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientesService } from '../clientes.service';
 import { Cliente } from './../cliente';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
@@ -15,7 +15,7 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
 })
 export class DetallesComponent {
 
-  client: Cliente = new Cliente();
+  @Input() client: Cliente | undefined;
   title: string = "Detalles del cliente"
   selectedPicture: null | File = null;
   progress: number = 0;
@@ -23,18 +23,7 @@ export class DetallesComponent {
 
   }
 
-  ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe(params => {
-      let id:number = +params.get('id')!;
-      if (id) {
-        this.clienteService.getCliente(id).subscribe(
-          response => {
-            this.client = response
-          }
-        )
-      }
-    })
-  }
+  ngOnInit(): void {}
 
   selectPicture(event: any): void {
     if (event.target.files && event.target.files[0]) {
@@ -50,17 +39,19 @@ export class DetallesComponent {
     if (!this.selectedPicture) {
       swal.fire("Error Upload: ", "Please select a picture", 'error');
     } else {
-      this.clienteService.uploadPicture(this.selectedPicture, this.client.id).subscribe(
-        event => {
-          if (event.type === HttpEventType.UploadProgress) {
-            this.progress = Math.round((event.loaded / event.total!) * 100);
-          } else if (event instanceof HttpResponse) {
-            let response: any = event.body;
-            this.client = response.cliente as Cliente;
-            swal.fire("Picture uploaded", response.message, 'success');
+      if (this.client) {
+        this.clienteService.uploadPicture(this.selectedPicture, this.client.id).subscribe(
+          event => {
+            if (event.type === HttpEventType.UploadProgress) {
+              this.progress = Math.round((event.loaded / event.total!) * 100);
+            } else if (event instanceof HttpResponse) {
+              let response: any = event.body;
+              this.client = response.cliente as Cliente;
+              swal.fire("Picture uploaded", response.message, 'success');
+            }
           }
-        }
-      )
+        )
+      }
     }
   }
 }

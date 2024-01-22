@@ -22,11 +22,6 @@ export const routes: Routes = [
     component: FormComponent
   },
   {
-    path: 'clientes/details/:id',
-    title: 'Crear cliente',
-    component: DetallesComponent
-  },
-  {
     path: 'clientes/form/:id',
     title: 'Crear cliente',
     component: FormComponent

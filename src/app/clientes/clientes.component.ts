@@ -7,11 +7,12 @@ import { RouterLink, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { tap } from 'rxjs';
 import { PaginatorComponent } from '../paginator/paginator.component';
+import { DetallesComponent } from './detalles/detalles.component';
 
 @Component({
   selector: 'app-clientes',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, RouterLink, PaginatorComponent],
+  imports: [CommonModule, HttpClientModule, RouterLink, PaginatorComponent, DetallesComponent],
   templateUrl: './clientes.component.html',
 })
 export class ClientesComponent {
@@ -23,6 +24,7 @@ export class ClientesComponent {
 
   clientes: Cliente[] = [];
   paginator: any;
+  selectedClient: Cliente | undefined;
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe((params) => {
       let page: number | null | undefined = 0;
@@ -74,5 +76,9 @@ export class ClientesComponent {
             });
         }
       });
+  }
+
+  showModal(cliente: Cliente): void {
+    this.selectedClient = cliente;
   }
 }
