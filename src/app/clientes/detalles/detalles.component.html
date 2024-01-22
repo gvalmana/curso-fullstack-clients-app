@@ -17,8 +17,11 @@
           </div>
           <div class="form-group row">
             <div class="col-sm-6">
-              <button (click)="uploadPicture()" type="button" type="button" class="btn btn-primary">Save</button>
+              <button (click)="uploadPicture()" [disabled]="!selectedPicture" type="button" class="btn btn-primary">Save</button>
             </div>
+          </div>
+          <div *ngIf="progress > 0" class="progress" style="width: 40px;" role="progressbar" aria-label="Example with label" attr.aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar" [ngStyle]="{width: progress + '%'}">{{ progress }}%</div>
           </div>
         </div>
         <div class="col-sm">

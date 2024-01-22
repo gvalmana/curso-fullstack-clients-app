@@ -4,6 +4,7 @@ import { Cliente } from './../cliente';
 import { Component } from '@angular/core';
 import swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'detalles-cliente',
@@ -16,7 +17,8 @@ export class DetallesComponent {
 
   client: Cliente = new Cliente();
   title: string = "Detalles del cliente"
-  private selectedPicture: File = new File([''], '');
+  selectedPicture: null | File = null;
+  progress: number = 0;
   constructor(private clienteService: ClientesService, private activatedRoute: ActivatedRoute, private router: Router) {
 
   }
@@ -37,15 +39,28 @@ export class DetallesComponent {
   selectPicture(event: any): void {
     if (event.target.files && event.target.files[0]) {
       this.selectedPicture = event.target.files[0];
+      this.progress = 0;
+      if (this.selectedPicture &&this.selectedPicture.type.indexOf('image') < 0) {
+        swal.fire("Error Upload: ", "Only image files allowed", 'error');
+      }
     }
   }
   uploadPicture(): void {
-    this.clienteService.uploadPicture(this.selectedPicture, this.client.id).subscribe(
-      response => {
-        this.client = response;
-        this.router.navigate(['/clientes']);
-        swal.fire("Picture uploaded", `${this.client.photo} picture uploaded`, 'success');
-      }
-    )
+    console.log(this.selectedPicture)
+    if (!this.selectedPicture) {
+      swal.fire("Error Upload: ", "Please select a picture", 'error');
+    } else {
+      this.clienteService.uploadPicture(this.selectedPicture, this.client.id).subscribe(
+        event => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progress = Math.round((event.loaded / event.total!) * 100);
+          } else if (event instanceof HttpResponse) {
+            let response: any = event.body;
+            this.client = response.cliente as Cliente;
+            swal.fire("Picture uploaded", response.message, 'success');
+          }
+        }
+      )
+    }
   }
 }
