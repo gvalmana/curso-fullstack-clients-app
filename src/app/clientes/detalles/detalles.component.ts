@@ -5,6 +5,7 @@ import { Component, Input } from '@angular/core';
 import swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { ModalService } from './modal.service';
 
 @Component({
   selector: 'detalles-cliente',
@@ -19,8 +20,8 @@ export class DetallesComponent {
   title: string = "Detalles del cliente"
   selectedPicture: null | File = null;
   progress: number = 0;
-  constructor(private clienteService: ClientesService, private activatedRoute: ActivatedRoute, private router: Router) {
-
+  showModal: boolean = false;
+  constructor(private clienteService: ClientesService, private _modalService : ModalService) {
   }
 
   ngOnInit(): void {}
@@ -47,11 +48,23 @@ export class DetallesComponent {
             } else if (event instanceof HttpResponse) {
               let response: any = event.body;
               this.client = response.cliente as Cliente;
+              this.modalService.notificarUpload.emit(this.client);
               swal.fire("Picture uploaded", response.message, 'success');
             }
           }
         )
       }
     }
+  }
+
+  closeModal(): void {
+    console.log("Cerrando modal")
+    this._modalService.close();
+    this.selectedPicture = null;
+    this.progress = 0;
+  }
+
+  get modalService(): ModalService {
+    return this._modalService
   }
 }

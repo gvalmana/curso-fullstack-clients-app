@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { Cliente } from './cliente';
 import { CommonModule } from '@angular/common';
 import { ClientesService } from './clientes.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { RouterLink, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { tap } from 'rxjs';
 import { PaginatorComponent } from '../paginator/paginator.component';
 import { DetallesComponent } from './detalles/detalles.component';
-
+import { ModalService } from './detalles/modal.service';
 @Component({
   selector: 'app-clientes',
   standalone: true,
@@ -18,8 +18,8 @@ import { DetallesComponent } from './detalles/detalles.component';
 export class ClientesComponent {
   constructor(
     private _clientesService: ClientesService,
-    private activatedRoute: ActivatedRoute
-
+    private activatedRoute: ActivatedRoute,
+    private _modalService: ModalService
   ) {}
 
   clientes: Cliente[] = [];
@@ -40,6 +40,14 @@ export class ClientesComponent {
         ).subscribe((response) => {
           this.clientes = response.content as Cliente[]
           this.paginator = response
+          this._modalService.notificarUpload.subscribe(cliente => {
+            this.clientes = this.clientes.map(index => {
+              if (index.id == cliente.id) {
+                index.photo = cliente.photo
+              }
+              return index
+            })
+          })
         });
     });
   }
@@ -79,6 +87,12 @@ export class ClientesComponent {
   }
 
   showModal(cliente: Cliente): void {
+    console.log("Mostrando modal")
     this.selectedClient = cliente;
+    this._modalService.show();
+  }
+
+  get modalService(): ModalService {
+    return this._modalService
   }
 }
