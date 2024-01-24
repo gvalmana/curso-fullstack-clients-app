@@ -5,6 +5,7 @@ import { Observable, catchError, map, of, throwError, tap } from 'rxjs';
 import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
+import { Region } from './region';
 @Injectable({
   providedIn: 'root',
 })
@@ -101,5 +102,14 @@ export class ClientesService {
       reportProgress: true
     });
     return this.http.request(req)
+  }
+
+  getRegions(): Observable<Region[]> {
+    return this.http.get<Region[]>(this.urlEndpoint + '/regions').pipe(
+      catchError(e => {
+        swal.fire(e.error.message, e.error.error, 'error')
+        return throwError(e);
+      })
+    );
   }
 }

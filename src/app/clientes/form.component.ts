@@ -11,6 +11,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { Region } from './region';
 @Component({
   selector: 'app-form',
   standalone: true,
@@ -23,11 +24,14 @@ export class FormComponent {
   public cliente: Cliente = new Cliente();
   public titulo: string = "Crear cliente";
   public errors: string[] = [];
-
+  public regions: Region[] = [];
   constructor(private ClientesService: ClientesService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.loadCliente();
+    this.ClientesService.getRegions().subscribe(response =>
+      this.regions = response
+    )
   }
 
   public loadCliente(): void {
@@ -68,5 +72,9 @@ export class FormComponent {
         console.error(err.error.errors)
       }
     )
+  }
+
+  public compareRegion(o1: Region, o2: Region): boolean {
+    return o1 === null || o2 === null ? false: o1 .id == o2.id
   }
 }
