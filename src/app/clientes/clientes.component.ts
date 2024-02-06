@@ -87,7 +87,6 @@ export class ClientesComponent {
   }
 
   showModal(cliente: Cliente): void {
-    console.log("Mostrando modal")
     this.selectedClient = cliente;
     this._modalService.show();
   }
